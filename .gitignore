@@ -1,0 +1,86 @@
+# Build
+/build/
+/build-*/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+compile_commands.json
+install_manifest.txt
+
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.lib
+*.a
+*.o
+*.obj
+*.pdb
+
+# Logs and runtime artifacts
+/logs/
+/*.log
+
+# Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vcxproj.user
+*.VC.db
+ipch/
+*.VC.opendb
+.vs/
+*.vcxproj.*.user
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# vcpkg
+/vcpkg_installed/
+vcpkg_installed/
+.buildtree/
+.packages/
+
+# CMake generated
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# third-party or vendored libraries (if you keep them out of git)
+/third_party/
+/external/
+/deps/
+
+# IDE / editor temp files
+*~
+*.swp
+*.swo
+
+# Tests output
+/tests/*.log
+
+# Keep binaries out of repo
+/bin/
+/lib/
+
+# Ignore compiled Python artifacts (if any python scripts are part of repo)
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore actual local config with secrets
+/config/db_config.yml
+# If there are environment-specific variants:
+#/config/*.local.yml
+
+# Keep example config in repo
+!/config/db_config.yml.example
