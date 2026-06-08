@@ -15,11 +15,9 @@ option(BUILD_SHARED_LIBS "Build shared libs" ON)
 
 # --- Полезные флаги компиляции (GCC/Clang / MSVC) ---
 if(MSVC)
-  add_compile_options(/W4 /permissive- /EHsc /utf-8)
+add_compile_options(/W4 /permissive- /EHsc /utf-8 /std:c++20)
 else()
-  add_compile_options(-Wall -Wextra -Wpedantic)
-  # you can add -march=native for local builds:
-  # add_compile_options(-march=native)
+add_compile_options(-Wall -Wextra -Wpedantic -std=c++20)
 endif()
 
 # ------------------- Зависимости -------------------
