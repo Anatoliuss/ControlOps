@@ -42,3 +42,31 @@ TEST_CASE(parse_count_mismatch_throws) {
 TEST_CASE(parse_non_integer_throws) {
     CHECK_THROWS(parseInputOperations("1, x", "10, 20"));
 }
+
+#include <optional>
+
+TEST_CASE(aggregate_max_picks_largest_present) {
+    std::vector<std::optional<int>> xs{ std::optional<int>(1), std::nullopt,
+                                        std::optional<int>(5), std::optional<int>(3) };
+    auto r = aggregateMax(xs);
+    CHECK(r.has_value());
+    CHECK(*r == 5);
+}
+
+TEST_CASE(aggregate_max_all_empty_is_nullopt) {
+    std::vector<std::optional<int>> xs{ std::nullopt, std::nullopt };
+    CHECK(!aggregateMax(xs).has_value());
+}
+
+TEST_CASE(aggregate_max_empty_vector_is_nullopt) {
+    std::vector<std::optional<int>> xs;
+    CHECK(!aggregateMax(xs).has_value());
+}
+
+TEST_CASE(aggregate_min_picks_smallest_present) {
+    std::vector<std::optional<int>> xs{ std::optional<int>(7), std::nullopt,
+                                        std::optional<int>(2), std::optional<int>(9) };
+    auto r = aggregateMin(xs);
+    CHECK(r.has_value());
+    CHECK(*r == 2);
+}
