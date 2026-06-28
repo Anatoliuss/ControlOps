@@ -22,8 +22,7 @@ struct SapDataFrame
 	std::optional<boost::gregorian::date> start_date;
 	bool is_completed;
 	bool is_started;
-	std::optional<boost::gregorian::date> actual_input_date;
-	std::optional<boost::gregorian::date> actual_alternative_date;
+	std::vector<boost::gregorian::date> actual_input_dates;
 	std::optional<boost::gregorian::date> sawing_date;
 	std::optional<boost::gregorian::date> resawing_date;
 	std::optional<std::string> status;
