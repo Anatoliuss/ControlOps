@@ -7,7 +7,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Create config from example
+        run: Copy-Item config/db_config.yml.example config/db_config.yml
 
       - name: Install vcpkg and dependencies
         run: |
@@ -23,7 +26,7 @@ jobs:
         run: cmake --build build --config Release
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RusAgroBack-Windows
           path: build/Release/RusAgroBack_Control_Operations.exe
