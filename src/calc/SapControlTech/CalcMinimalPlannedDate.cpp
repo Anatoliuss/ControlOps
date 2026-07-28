@@ -29,6 +29,7 @@ void calcMinimalPlannedDate(InitialData& InitData)
         candidates.push_back(frame.planned_dates.planned_date);
 
         // Add the planned date implied by each input dependency.
+        bool alternative_contributed = false;
         for (const auto& dep : frame.input_operations)
         {
             KeyOrder4 key{ frame.culture_id, frame.region_id, dep.operation_order, frame.year };
@@ -42,10 +43,13 @@ void calcMinimalPlannedDate(InitialData& InitData)
                 candidates.push_back(
                     parent.planned_dates.minimal_planned_date.value()
                     + boost::gregorian::days(dep.deadline));
+                if (dep.is_alternative) alternative_contributed = true;
             }
         }
 
-        // Literal task.md rule: max over the region-based date and all dependency dates.
-        frame.planned_dates.minimal_planned_date = aggregateMax(candidates);
+        // Business rule: min without an alternative, max once an alternative
+        // dependency produced a date.
+        frame.planned_dates.minimal_planned_date =
+            aggregateDependencyDates(candidates, alternative_contributed);
     }
 }

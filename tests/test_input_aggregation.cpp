@@ -70,3 +70,35 @@ TEST_CASE(aggregate_min_picks_smallest_present) {
     CHECK(r.has_value());
     CHECK(*r == 2);
 }
+
+// --- Business rule: min without an alternative, max once an alternative contributed ---
+
+TEST_CASE(rule_takes_max_when_alternative_contributed) {
+    // planned=11 apr (11), primary input=6 (6), alternative input=20
+    std::vector<std::optional<int>> xs{ std::optional<int>(11), std::optional<int>(6),
+                                        std::optional<int>(20) };
+    auto r = aggregateDependencyDates(xs, true);
+    CHECK(r.has_value());
+    CHECK(*r == 20);
+}
+
+TEST_CASE(rule_takes_min_without_alternative) {
+    // same candidates, but no alternative dependency produced a date
+    std::vector<std::optional<int>> xs{ std::optional<int>(11), std::optional<int>(6),
+                                        std::optional<int>(20) };
+    auto r = aggregateDependencyDates(xs, false);
+    CHECK(r.has_value());
+    CHECK(*r == 6);
+}
+
+TEST_CASE(rule_ignores_empty_candidates) {
+    std::vector<std::optional<int>> xs{ std::nullopt, std::optional<int>(5), std::nullopt };
+    CHECK(*aggregateDependencyDates(xs, true) == 5);
+    CHECK(*aggregateDependencyDates(xs, false) == 5);
+}
+
+TEST_CASE(rule_all_empty_is_nullopt_either_way) {
+    std::vector<std::optional<int>> xs{ std::nullopt, std::nullopt };
+    CHECK(!aggregateDependencyDates(xs, true).has_value());
+    CHECK(!aggregateDependencyDates(xs, false).has_value());
+}

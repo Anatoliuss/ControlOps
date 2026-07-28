@@ -4,6 +4,14 @@
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <pqxx/pqxx>
 
+// A date implied by one input dependency: parent operation's actual date + the
+// dependency's deadline. Keeps its origin so the min/max rule can be applied later.
+struct ActualInputDate
+{
+	boost::gregorian::date date;
+	bool is_alternative;
+};
+
 struct SapDataFrame
 {
 	int culture_id;
@@ -22,7 +30,7 @@ struct SapDataFrame
 	std::optional<boost::gregorian::date> start_date;
 	bool is_completed;
 	bool is_started;
-	std::vector<boost::gregorian::date> actual_input_dates;
+	std::vector<ActualInputDate> actual_input_dates;
 	std::optional<boost::gregorian::date> sawing_date;
 	std::optional<boost::gregorian::date> resawing_date;
 	std::optional<std::string> status;

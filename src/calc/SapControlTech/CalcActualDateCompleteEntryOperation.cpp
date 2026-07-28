@@ -64,8 +64,9 @@ void calcActualInputDates(YearSlices& uniqueSlices, const InitialData& initData)
 
                         if (parentActual.has_value())
                         {
-                            frame.actual_input_dates.push_back(
-                                parentActual.value() + boost::gregorian::days(dep.deadline));
+                            frame.actual_input_dates.push_back(ActualInputDate{
+                                parentActual.value() + boost::gregorian::days(dep.deadline),
+                                dep.is_alternative });
                         }
                     }
 

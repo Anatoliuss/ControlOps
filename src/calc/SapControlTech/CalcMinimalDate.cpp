@@ -83,13 +83,18 @@ void calcMinimalDate(YearSlices& uniqueSlices, const InitialData& initData)
                         min_plan_date = std::nullopt;
                     }
 
-                    // Literal task.md rule: max over min_plan_date and all actual dependency dates.
+                    // Business rule: min without an alternative, max once an alternative
+                    // dependency produced a date.
                     std::vector<std::optional<date>> candidates;
                     candidates.push_back(min_plan_date);
+                    bool alternative_contributed = false;
                     for (const auto& d : frame.actual_input_dates)
-                        candidates.push_back(d);
+                    {
+                        candidates.push_back(d.date);
+                        if (d.is_alternative) alternative_contributed = true;
+                    }
 
-                    frame.minimal_date = aggregateMax(candidates);
+                    frame.minimal_date = aggregateDependencyDates(candidates, alternative_contributed);
 
                     frame.status = setStatus(frame.actual_date, frame.minimal_date, today);
                     frame.is_actual = setIsActual(frame.status, frame.actual_date,

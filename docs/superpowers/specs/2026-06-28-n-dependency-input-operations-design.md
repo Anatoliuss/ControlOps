@@ -30,9 +30,22 @@ Example — `input_operation_order = "23, 17"`, `input_deadline = "1, 5"` produc
 
 ## Decisions (confirmed)
 
+> **Update 2026-07-13 (manager clarification, supersedes the aggregation decision below):**
+> The rule is **conditional**, not universal `max`: take `min` when no alternative
+> dependency produced a date, `max` once at least one did. This reproduces the old
+> behaviour for single-input rows (~212) and matches `task.md` for rows with
+> alternatives (~39). Implemented in one place — `aggregateDependencyDates()`.
+> The manager also confirmed we do **not** wait for all inputs: only dependencies that
+> actually have a date participate ("сколько фактически выполнено предшественников,
+> столько и считаются") — which the collection loops already do.
+> **Open:** the manager described the rule without distinguishing the two phases; the old
+> code applied the conditional only in Phase 1 and always `min` in Phase 2. We apply it to
+> both phases (the reading consistent with `task.md` for alternative rows) — pending
+> confirmation.
+
 | Topic | Decision |
 | --- | --- |
-| Aggregation semantics | Follow `task.md` prose **literally** (universal `max`; see Rules). |
+| Aggregation semantics | Conditional `min`/`max` — see the update note above. |
 | DB schema | `input_*` columns become **TEXT** holding the comma lists; drop the two `alternative_*` columns. No normalized child table. |
 | Build of `.exe` | Existing **GitHub Actions** workflow (`build-windows.yml`, vcpkg + MSVC). |
 | Testing | **Unit tests** for parsing + aggregation (no live DB required). |

@@ -203,7 +203,8 @@ void printSlicesForYearAndTm(const YearSlices& slices, int year, const std::stri
 
                 std::cout << "actual_input_dates: ";
                 for (const auto& d : frame.actual_input_dates)
-                    std::cout << boost::gregorian::to_simple_string(d) << " ";
+                    std::cout << boost::gregorian::to_simple_string(d.date)
+                              << (d.is_alternative ? "(alt) " : " ");
                 std::cout << std::endl;
                 std::cout << "sawing_date: " << frame.sawing_date << std::endl;
                 std::cout << "resawing_date: " << frame.resawing_date << std::endl;

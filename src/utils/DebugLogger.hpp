@@ -15,7 +15,8 @@ inline void logFrameState(const std::string& step, const SapDataFrame& frame) {
     if (frame.higher_tm == "TM-04-41-35-0008" && frame.year == 2026) {
         std::string actual_inputs;
         for (const auto& d : frame.actual_input_dates)
-            actual_inputs += boost::gregorian::to_simple_string(d) + " ";
+            actual_inputs += boost::gregorian::to_simple_string(d.date)
+                           + (d.is_alternative ? "(alt) " : " ");
 
         spdlog::info(
             "[DEBUG {}] higher_tm={}, year={}, t_material_id={}, order={}, "
