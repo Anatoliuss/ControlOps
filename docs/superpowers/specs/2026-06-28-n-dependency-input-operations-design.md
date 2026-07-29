@@ -38,10 +38,16 @@ Example — `input_operation_order = "23, 17"`, `input_deadline = "1, 5"` produc
 > The manager also confirmed we do **not** wait for all inputs: only dependencies that
 > actually have a date participate ("сколько фактически выполнено предшественников,
 > столько и считаются") — which the collection loops already do.
-> **Open:** the manager described the rule without distinguishing the two phases; the old
-> code applied the conditional only in Phase 1 and always `min` in Phase 2. We apply it to
-> both phases (the reading consistent with `task.md` for alternative rows) — pending
-> confirmation.
+> **Rationale (manager, 2026-07-29):** an alternative predecessor usually runs on a later
+> schedule of its own, so the dependent operation must be given more time — hence the later
+> (max) date. `minimal_date` is used as a *deadline* (see `setStatus`), so max = more slack,
+> min = stricter. The rationale is about the principle, not a specific code location, so the
+> conditional is applied in **both** phases (the old code had it in Phase 1 only, with
+> Phase 2 always `min`).
+>
+> Note: the condition is "an alternative dependency **produced a date**", not merely
+> "an alternative is configured" — this reproduces the old `alternative_date.has_value()`
+> check exactly.
 
 | Topic | Decision |
 | --- | --- |
