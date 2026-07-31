@@ -18,9 +18,9 @@ std::vector<int> splitInts(const std::string& csv) {
     std::string token;
     while (std::getline(ss, token, ',')) {
         std::string t = trim(token);
-        if (t.empty()) continue;            // skip blanks / trailing comma
+        if (t.empty()) continue;   
         size_t pos = 0;
-        int value = std::stoi(t, &pos);     // throws std::invalid_argument on junk
+        int value = std::stoi(t, &pos);   
         if (pos != t.size())
             throw std::invalid_argument("Non-integer token in list: '" + t + "'");
         out.push_back(value);
