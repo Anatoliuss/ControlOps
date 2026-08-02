@@ -28,8 +28,15 @@ jobs:
       - name: Run unit tests
         run: ctest --test-dir build -C Release --output-on-failure
 
+      - name: List runtime folder
+        run: Get-ChildItem build/Release | Select-Object Name, Length
+
+      # Выкладываем всю папку сборки: vcpkg кладёт рядом с .exe нужные DLL
+      # (libpqxx, boost, yaml-cpp, libpq, OpenSSL). Без них .exe не запустится,
+      # а MinGW-библиотеки из старого комплекта libs/control_ops не подходят —
+      # там другой ABI.
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: RusAgroBack-Windows
-          path: build/Release/RusAgroBack_Control_Operations.exe
+          path: build/Release/
