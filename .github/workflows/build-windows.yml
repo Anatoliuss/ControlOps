@@ -35,8 +35,11 @@ jobs:
       # (libpqxx, boost, yaml-cpp, libpq, OpenSSL). Без них .exe не запустится,
       # а MinGW-библиотеки из старого комплекта libs/control_ops не подходят —
       # там другой ABI.
+      # tests.exe в комплект поставки не идёт — тесты прогоняются шагом выше.
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: RusAgroBack-Windows
-          path: build/Release/
+          path: |
+            build/Release/
+            !build/Release/tests.exe
