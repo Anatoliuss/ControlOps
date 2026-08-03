@@ -3,9 +3,6 @@
 #include <string>
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <pqxx/pqxx>
-
-// A date implied by one input dependency: parent operation's actual date + the
-// dependency's deadline. Keeps its origin so the min/max rule can be applied later.
 struct ActualInputDate
 {
 	boost::gregorian::date date;

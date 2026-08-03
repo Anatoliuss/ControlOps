@@ -12,8 +12,6 @@ void InitialData::Print()
 {
     for (const auto& row : data)
     {
-        //if (row.culture_id == 12 && row.region_id == 7 && row.year == 2024)
-        //{
             std::cout << "culture_id: " << row.culture_id << std::endl;
             std::cout << "t_material_id: " << row.t_material_id << std::endl;
             std::cout << "region_id: " << row.region_id << std::endl;
